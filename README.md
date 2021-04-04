@@ -7,7 +7,7 @@
 
 My approach consisted of moving the robot straight and taking 90 degree turns successively. Going straight and turning 4 times makes the robot travel in a square. Every straight and turning movement has the same speed and duration, which ensures that the path is a square.
 
-Code Explanation:
+**Code Explanation:**
 
 * The init method initializes the publisher and the velocity message.
 * The go_for_duration() method takes a duration argument and publishes a velocity message for that duration. It checks the publisher's connections to make sure that no message is wasted.
@@ -16,10 +16,10 @@ Code Explanation:
 *In the run() method we go straight and turn four times to complete a square.
 
 
-Challenges:
+**Challenges:**
 
 The main challenge I changed was in trying to make the robot turn 90 degrees. For this to happen, the robot has to set a precise velocity for a precise duration. I noticed that even though the formulas were correct, the robot was not turning a full 90 degrees. It turned out that it takes a while for the publisher to establish a connection, which messes with the turning time duration. I fixed this by checking that a connection is made before making the robot turn. This ensured a precise 90 degree turn.
 
-Future Work:
+**Future Work:**
 
 Because of the friction in the environment, the robot drifts every time it halts and every time it starts moving. This causes it to not move in a perfect square and end up a couple of inches away from where it started. I would try to fix this problem. 
