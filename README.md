@@ -14,7 +14,7 @@ My approach consisted of moving the robot straight and taking 90 degree turns su
 * The go_for_duration() method takes a duration argument and publishes a velocity message for that duration. It checks the publisher's connections to make sure that no message is wasted.
 * go_straight() method makes the robot travel on a straight line for 5 seconds at 0.3 speed by setting the linear twist parameter and publishing using the go_for_duration method.
 * turn90() method makes the robot turn 90 degrees anticlockwise. It turns in 4 seconds and the angular velocity is calculated by pi/(2*duration) since pi/2 is 90 degrees. This again uses the go_for_duration method to publish the velocity message.
-*In the run() method we go straight and turn four times to complete a square.
+* In the run() method we go straight and turn four times to complete a square.
 
 
 **Challenges:**
