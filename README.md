@@ -17,6 +17,25 @@ My approach consisted of moving the robot straight and taking 90 degree turns su
 * In the run() method we go straight and turn four times to complete a square.
 
 
+
+# Person Follower
+
+![person](./person.gif)
+
+
+**Description:**
+
+Whenever there is a Lidar reading, I process the reading and determine where the person is located based on the angle of the minimum reading. If the person is in front I move forward. If the person is to the either side I give angular velocity. If the person is behind I stop and give angular velocity to not get out of scan range. 
+
+
+**Code Explanation:**
+* The `init` method initializes the velocity publisher and scan subscriber.
+* The `process_scan()` method processes the Lidar scan value and determines the location of the person. It sets the state of the vehicle accordingly.
+* `run()` method runs the person follower. If the person is too close, it stops. If the person is in front, it follows. If the person is to the sides, it turns. If the person is behind, it stops and turns. 
+
+
+
+
 **Challenges:**
 
 The main challenge I changed was in trying to make the robot turn 90 degrees. For this to happen, the robot has to set a precise velocity for a precise duration. I noticed that even though the formulas were correct, the robot was not turning a full 90 degrees. It turned out that it takes a while for the publisher to establish a connection, which messes with the turning time duration. I fixed this by checking that a connection is made before making the robot turn. This ensured a precise 90 degree turn.

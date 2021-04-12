@@ -5,6 +5,7 @@ from sensor_msgs.msg import LaserScan
 from math import pi
 
 
+#get the index of the min of a list
 def argmin(iterable):
     return min(enumerate(iterable), key=lambda x: x[1])[0]
 
@@ -17,13 +18,12 @@ class PersonFollower(object):
         self.sub = rospy.Subscriber('/scan', LaserScan, self.process_scan)
         self.vel_msg = Twist()
 
-    # def location(self, scan_value):
-    #     if scan_value
-
+    #process the lidar values
     def process_scan(self, msg):
         scan_value = min(msg.ranges)
         location = argmin(msg.ranges)
 
+        #set where the person is according to where the min scan value is
         if location <= 25 or location >= 335:
             self.state = "front"
         elif location > 25 and location <= 135:
@@ -35,9 +35,13 @@ class PersonFollower(object):
         else:
             self.state = "right"
 
+
         if scan_value < 1:
+            #if close and in front stop
             if self.state == "front":
                 self.state = "stop"
+
+            #if too close don't move forward
             elif self.state == "left" or self.state == "behind_left": 
                 self.state = "behind_left"
             elif self.state == "right" or self.state == "behind_right":
@@ -50,17 +54,24 @@ class PersonFollower(object):
         rospy.sleep(2)
         r = rospy.Rate(20)
         while not rospy.is_shutdown():
+
+            #stop if too close
             if self.state == "stop":
                 self.vel_msg.linear.x = 0
                 self.vel_msg.angular.z = 0
 
+            #if the person is in front follow
             if self.state == "front":
                 self.vel_msg.angular.z = 0
                 self.vel_msg.linear.x = 0.6
+
+            #turn left or right if the person is on the side
             if self.state == "left":
                 self.vel_msg.angular.z = 0.8
             if self.state == "right":
                 self.vel_msg.angular.z = -0.8
+
+            #if the person is far behind stop and turn
             if self.state == "behind_left":
                 self.vel_msg.linear.x = 0
                 self.vel_msg.angular.z = 1.5
